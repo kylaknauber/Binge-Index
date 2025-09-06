@@ -6,6 +6,7 @@ import {
     getTVGenres
 } from "../api/data"
 import { Link } from "react-router-dom"
+import RevealSection from "./RevealSection"
 export default function ShowList() {
     const [url, setUrl] = useState("/tvshows");
     const [popular, setPopular] = useState([]);
@@ -84,7 +85,12 @@ export default function ShowList() {
         topRatedTV();
         onTheAirTV();
         tvGenres();
-    }, []);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth' // Optional: for a smooth scroll animation
+        });
+    }, [url]);
 
     const popularElements = popular.map(tvshow => {
         const genreElements = genres.filter(genre => tvshow.genre_ids.includes(genre.id));
@@ -177,47 +183,61 @@ export default function ShowList() {
     console.log(genres);
 
     return (
-        <div className="content-container">
-            <Search link={url}
-                path="/tvshows" />
-            <div className="media-container">
-                <h1>Popular TV Shows</h1>
-                <div className="showMedia">
-                    {popularElements}
-                    <Link className="view-more"
-                        to={`/tvshows/category/popular`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
+        <>
+            {popular.length > 0 && topRated.length > 0 && airingToday.length > 0 && onTheAir.length > 0 && genres.length > 0 ?
+                <div className="content-container">
+                    <Search link={url}
+                        path="/tvshows" />
+                    <div className="media-container">
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Popular TV Shows</h1>
+                        </RevealSection>
+                        <RevealSection classSection="showMedia">
+                            {popularElements}
+                            <Link className="view-more"
+                                to={`/tvshows/category/popular`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Top Rated</h1>
+                        </RevealSection>
+                        <RevealSection classSection="showMedia">
+                            {topRatedElements}
+                            <Link className="view-more"
+                                to={`/tvshows/category/top-rated`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Airing Today</h1>
+                        </RevealSection>
+                        <RevealSection classSection="showMedia">
+                            {airingTodayElements}
+                            <Link className="view-more"
+                                to={`/tvshows/category/airing-today`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Airing This Week</h1>
+                        </RevealSection>
+                        <RevealSection classSection="showMedia">
+                            {airingThisWeekElements}
+                            <Link className="view-more"
+                                to={`/tvshows/category/airing-this-week`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                    </div>
                 </div>
-                <h1>Top Rated</h1>
-                <div className="showMedia">
-                    {topRatedElements}
-                    <Link className="view-more"
-                        to={`/tvshows/category/top-rated`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
-                </div>
-                <h1>Airing Today</h1>
-                <div className="showMedia">
-                    {airingTodayElements}
-                    <Link className="view-more"
-                        to={`/tvshows/category/airing-today`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
-                </div>
-                <h1>Airing This Week</h1>
-                <div className="showMedia">
-                    {airingThisWeekElements}
-                    <Link className="view-more"
-                        to={`/tvshows/category/airing-this-week`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
-                </div>
-            </div>
-        </div>
+                :
+                <div>Loading...</div>
+        }
+        </>
     )
 }

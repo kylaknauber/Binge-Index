@@ -5,6 +5,7 @@ import {
     
 } from "../api/data"
 import { Link } from "react-router-dom"
+import RevealSection from "./RevealSection"
 export default function PeopleList() {
     const [url, setUrl] = useState("/people");
     const [trending, setTrending] = useState([]);
@@ -69,20 +70,24 @@ export default function PeopleList() {
 
     return (
         <>
-            {popular !== null && trending !== null
+            {popular.length > 0 && trending.length > 0
                 ?
                 <div className="content-container">
                     <Search link={url}
                         path="/people" />
                     <div className="media-container">
-                        <h1>Popular People</h1>
-                        <div className="peopleMedia">
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Popular People</h1>
+                        </RevealSection>
+                        <RevealSection classSection="peopleMedia">
                             {popularElements}
-                        </div>
-                        <h1>Trending People</h1>
-                        <div className="peopleMedia">
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Trending People</h1>
+                        </RevealSection>
+                        <RevealSection classSection="peopleMedia">
                             {trendingElements}
-                        </div>
+                        </RevealSection>
                     </div>
                 </div>
                 :

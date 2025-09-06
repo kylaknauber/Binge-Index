@@ -1,7 +1,7 @@
 ﻿import { motion, useInView, useAnimation } from "framer-motion"
 import { useEffect, useRef } from "react"
 
-export default function RevealSection({ title, children }) {
+export default function RevealSection({ title, children, classSection }) {
     const motionRef = useRef(null);
     const isInView = useInView(motionRef, { once: false });
     const mainControls = useAnimation();
@@ -26,8 +26,7 @@ export default function RevealSection({ title, children }) {
                 animate={mainControls}
                 transition={{ duration: 0.5, delay: 0.25 }}
             >
-                <h1 className="section-title">{title}</h1>
-                <div className="homeMedia">{children}</div>
+                <div className={classSection}>{children}</div>
             </motion.div>
         </div>
     )

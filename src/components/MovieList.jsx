@@ -6,6 +6,7 @@ import {
     getUpcomingMovies, getTrendingMovies
 } from "../api/data"
 import { Link } from "react-router-dom"
+import RevealSection from "./RevealSection"
 
 export default function MovieList() {
     const [url, setUrl] = useState("/movies");
@@ -208,43 +209,56 @@ export default function MovieList() {
     
 
     return (
-        <div className="content-container">
-            <Search link={url}
-                path="/movies" />
-            <div className="media-container">
-                <h1>Popular Movies</h1>
-                <div className="movieMedia">
-                    {popularElements}
-                    <Link className="view-more"
-                        to={`/movies/category/popular` }>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
+        <>
+            {popular.length > 0 && upcoming.length > 0 && topRated.length > 0 && nowPlaying.length > 0 && genres.length > 0 ?
+                <div className="content-container">
+                    <Search link={url}
+                        path="/movies" />
+                    <div className="media-container">
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Popular Movies</h1>
+                        </RevealSection>
+                        <RevealSection classSection="movieMedia">
+                            {popularElements}
+                            <Link className="view-more"
+                                to={`/movies/category/popular`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Now Playing</h1>
+                        </RevealSection>
+                        <RevealSection classSection="movieMedia">
+                            {nowPlayingElements}
+                            <Link className="view-more"
+                                to={`/movies/category/now-playing`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Top Rated</h1>
+                        </RevealSection>
+                        <RevealSection classSection="movieMedia">
+                            {topRatedElements}
+                            <Link className="view-more"
+                                to={`/movies/category/top-rated`}>
+                                <p>View</p>
+                                <p>More...</p>
+                            </Link>
+                        </RevealSection>
+                        <RevealSection classSection="section-title">
+                            <h1 className="section-title">Upcoming</h1>
+                        </RevealSection>
+                        <RevealSection classSection="movieMedia">
+                            {upcomingElements}
+                        </RevealSection>
+                    </div>
                 </div>
-                <h1>Now Playing</h1>
-                <div className="movieMedia">
-                    {nowPlayingElements}
-                    <Link className="view-more"
-                        to={`/movies/category/now-playing`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
-                </div>
-                <h1>Top Rated</h1>
-                <div className="movieMedia">
-                    {topRatedElements}
-                    <Link className="view-more"
-                        to={`/movies/category/top-rated`}>
-                        <p>View</p>
-                        <p>More...</p>
-                    </Link>
-                </div>
-                <h1>Upcoming</h1>
-                <div className="movieMedia">
-                    {upcomingElements}
-                    
-                </div>
-            </div>
-        </div>
+                :
+                <div>Loading...</div>
+        }
+        </>
     )
 }

@@ -153,32 +153,40 @@ export default function Home() {
                     <h3>{person.name}</h3>
 
                 </div>
-            </Link>
+            </Link> 
         )
     })
 
-    const motionRef = useRef(null);
-    const isInView = useInView(motionRef, { once: false });
-    const mainControls = useAnimation();
-
-    useEffect(() => {
-        if (isInView) {
-            mainControls.start("visible");
-        }
-    }, [isInView]);
-
     return (    
         <>
-            {trendingMovies && trendingTVShows && trendingPeople ?
+            {trendingMovies.length > 0 && trendingTVShows.length > 0 && trendingPeople.length > 0 ?
             <div className="content-container">
                 <Search link={url}
                     path="" />
                 <div className="media-container">
-                    <RevealSection title="Trending Movies">{trendMovieElements}</RevealSection>
-                    <RevealSection title="Trending TV Shows">{trendTVElements}</RevealSection>
-                    <RevealSection title="Trending People">{trendPeopleElements}</RevealSection>
+                    <RevealSection
+                        classSection="section-title">
+                        <h1 className="section-title">Trending Movies</h1>
+                    </RevealSection>
+                    <RevealSection classSection="homeMedia">
+                        {trendMovieElements}
+                    </RevealSection>
+                    <RevealSection
+                        classSection="section-title">
+                        <h1 className="section-title">Trending TV Shows</h1>
+                    </RevealSection>
+                    <RevealSection classSection="homeMedia">
+                        {trendTVElements}
+                    </RevealSection>
+                    <RevealSection
+                        classSection="section-title">
+                        <h1 className="section-title">Trending People</h1>
+                    </RevealSection>
+                    <RevealSection classSection="homeMedia">
+                        {trendPeopleElements}
+                    </RevealSection>
                 </div>
-                </div>
+            </div>
                 :
             <div>Loading...</div>
             } 
