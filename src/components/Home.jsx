@@ -1,12 +1,13 @@
 ﻿import Search from "./Search"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
     getPopularMovies, getPopularTVShows,
     getTrendingMovies, getTrendingTVShows,
     getTrendingPeople, getMovieGenres, getTVGenres
 } from "../api/data"
-
 import { Link } from "react-router-dom"
+import { motion, useInView, useAnimation } from "framer-motion"
+import RevealSection from "./RevealSection"
 export default function Home() {
     const [url, setUrl] = useState("/");
     const [popularMovies, setPopularMovies] = useState([])
@@ -156,25 +157,31 @@ export default function Home() {
         )
     })
 
-    return (
-        <div className="content-container">
-            <Search link={url}
-                path="" />
-            <div className="media-container">
-                
-                <h1>Trending Movies</h1>
-                <div className="homeMedia">
-                    {trendMovieElements}
+    const motionRef = useRef(null);
+    const isInView = useInView(motionRef, { once: false });
+    const mainControls = useAnimation();
+
+    useEffect(() => {
+        if (isInView) {
+            mainControls.start("visible");
+        }
+    }, [isInView]);
+
+    return (    
+        <>
+            {trendingMovies && trendingTVShows && trendingPeople ?
+            <div className="content-container">
+                <Search link={url}
+                    path="" />
+                <div className="media-container">
+                    <RevealSection title="Trending Movies">{trendMovieElements}</RevealSection>
+                    <RevealSection title="Trending TV Shows">{trendTVElements}</RevealSection>
+                    <RevealSection title="Trending People">{trendPeopleElements}</RevealSection>
                 </div>
-                <h1>Trending TV Shows</h1>
-                <div className="homeMedia">
-                    {trendTVElements}
                 </div>
-                <h1>Trending People</h1>
-                <div className="homeMedia">
-                    {trendPeopleElements}
-                </div>
-            </div>
-        </div>
+                :
+            <div>Loading...</div>
+            } 
+        </> 
     )
 }

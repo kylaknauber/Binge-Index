@@ -106,6 +106,10 @@ nav {
         color: #3E3D42;
     }
 
+.section-title {
+    color: #3E3D42;
+}
+
 .homeMedia {
     display: flex;
     flex-wrap: wrap;
